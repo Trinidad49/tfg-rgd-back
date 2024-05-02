@@ -22,6 +22,20 @@ const Loginschema = new mongoose.Schema({
   },
 });
 
+const answerSchema = new mongoose.Schema({
+    text: String,
+  });
+
+const questionSchema = new mongoose.Schema({
+    text: String,
+    type: {
+      type: String,
+      enum: ['text', 'multipleChoice', 'checkbox']
+    },
+    answers: [answerSchema],
+    mandatory: Boolean
+  });
+
 const Surveyschema = new mongoose.Schema({
   userID: {
     type: String,
@@ -32,7 +46,7 @@ const Surveyschema = new mongoose.Schema({
     required: true
   },
   questions: {
-    type: [String],
+    type: [questionSchema],
   },
   createdAt: {
     type: Date,
