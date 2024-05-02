@@ -58,4 +58,4 @@ const Surveyschema = new mongoose.Schema({
 const usersCollection = new mongoose.model("users", Loginschema);
 const surveysCollection = new mongoose.model("surveys", Surveyschema);
 
-module.exports = { usersCollection, surveysCollection };
+module.exports = { usersCollection, surveysCollection, mongoose};

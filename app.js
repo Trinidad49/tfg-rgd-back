@@ -2,7 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const bcrypt = require("bcrypt");
 var cors = require("cors");
-const { usersCollection, surveysCollection } = require("./dbConfig");
+const { usersCollection, surveysCollection, mongoose } = require("./dbConfig");
 const jwt = require("jsonwebtoken");
 
 const app = express();
@@ -57,10 +57,22 @@ app.post("/login", async (req, res) => {
   res.status(200).json({ message: "Login successful", id: user._id });
 });
 
-app.get("/surveys", async (req, res) => {
+app.get("/survey", async (req, res) => {
   console.log("Get survey");
   try {
-    const userID = req.headers.userid; // Assuming user ID is available in request object
+    const _id = new mongoose.Types.ObjectId(req.headers.surveyid);
+    const survey = await surveysCollection.find({ _id });
+    res.json(survey);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.get("/surveys", async (req, res) => {
+  console.log("Get user surveys");
+  try {
+    const userID = req.headers.userid;
     const surveys = await surveysCollection.find({ userID });
     res.json(surveys);
   } catch (err) {
