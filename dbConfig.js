@@ -54,8 +54,25 @@ const Surveyschema = new mongoose.Schema({
   }
 });
 
+const Answerschema = new mongoose.Schema({
+  surveyID: {
+    type: String,
+    required: true
+  },
+  answers: [{
+    text: {
+      type: String,
+      required: true
+    },
+    answer: {
+      type: String
+    }
+  }]
+});
+
 // collection part
 const usersCollection = new mongoose.model("users", Loginschema);
 const surveysCollection = new mongoose.model("surveys", Surveyschema);
+const answersCollection = new mongoose.model("answers", Answerschema)
 
-module.exports = { usersCollection, surveysCollection, mongoose};
+module.exports = { usersCollection, surveysCollection, answersCollection, mongoose};

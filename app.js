@@ -2,8 +2,9 @@ const express = require("express");
 const fs = require("fs");
 const bcrypt = require("bcrypt");
 var cors = require("cors");
-const { usersCollection, surveysCollection, mongoose } = require("./dbConfig");
+const { usersCollection, surveysCollection, mongoose, answersCollection } = require("./dbConfig");
 const jwt = require("jsonwebtoken");
+const { Console } = require("console");
 
 const app = express();
 const PORT = 3080;
@@ -130,6 +131,38 @@ app.post("/surveys", async (req, res) => {
         .status(201)
         .json({ _id: response[0]._id, message: "Survey created successfully" });
     }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.post('/answer', async (req, res) => {
+  console.log("Saving answer")
+  try {
+    const { surveyID, questions } = req.body;
+
+
+    const newAnswer = {
+      surveyID,
+      answers:questions,
+    };
+
+    const response = await answersCollection.insertMany(newAnswer)
+
+    res.status(201).json(response);
+  } catch (error) {
+    console.error('Error saving answers:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.get("/answers", async (req, res) => {
+  console.log("Get answers for survey");
+  try {
+    const surveyID = req.headers.surveyid;
+    const answers = await answersCollection.find({ surveyID });
+    res.json(answers);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
