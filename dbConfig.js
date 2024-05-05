@@ -10,7 +10,6 @@ connect
     console.log("Database cannot be Connected");
   });
 
-// Create Schema
 const Loginschema = new mongoose.Schema({
   email: {
     type: String,
@@ -70,7 +69,6 @@ const Answerschema = new mongoose.Schema({
   }]
 });
 
-// collection part
 const usersCollection = new mongoose.model("users", Loginschema);
 const surveysCollection = new mongoose.model("surveys", Surveyschema);
 const answersCollection = new mongoose.model("answers", Answerschema)

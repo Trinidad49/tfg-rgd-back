@@ -13,7 +13,7 @@ const PORT = 3080;
 app.use(cors());
 app.use(express.json());
 
-// Register endpoint
+// Register
 app.post("/register", async (req, res) => {
   console.log("Creating account")
   const data = {
@@ -34,7 +34,7 @@ app.post("/register", async (req, res) => {
   res.status(200).json({ message: "User registered successfully" });
 });
 
-// Login endpoint
+// Login
 app.post("/login", async (req, res) => {
   console.log("Loggin in")
   const data = {
@@ -89,7 +89,6 @@ app.post("/surveys", async (req, res) => {
   try {
     const { userID, title, questions, _id } = req.body;
 
-    // Create an array to hold the formatted questions
     const formattedQuestions = [];
 
     // Iterate over the received questions array and format each question
@@ -100,7 +99,7 @@ app.post("/surveys", async (req, res) => {
       const formattedQuestion = {
         text: question.text,
         type: question.type,
-        answers: formattedAnswers, // Assuming answers are already formatted correctly
+        answers: formattedAnswers,
         mandatory: question.mandatory,
       };
       formattedQuestions.push(formattedQuestion);
