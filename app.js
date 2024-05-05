@@ -15,6 +15,7 @@ app.use(express.json());
 
 // Register endpoint
 app.post("/register", async (req, res) => {
+  console.log("Creating account")
   const data = {
     email: req.body.email,
     password: req.body.password,
@@ -35,6 +36,7 @@ app.post("/register", async (req, res) => {
 
 // Login endpoint
 app.post("/login", async (req, res) => {
+  console.log("Loggin in")
   const data = {
     email: req.body.email,
     password: req.body.password,
@@ -136,6 +138,32 @@ app.post("/surveys", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
+//Delete a survey
+app.delete("/surveys", async (req, res) => {
+  console.log("Delete survey")
+  try {
+    const { _id } = req.body;
+
+    if (!_id) {
+      return res.status(400).json({ message: "Survey ID is required" });
+    }
+
+    // Delete the survey from the collection
+    const result = await surveysCollection.deleteOne({ _id: _id });
+
+    if (result.deletedCount === 1) {
+      console.log("Survey deleted");
+      return res.status(200).json({ message: "Survey deleted successfully" });
+    } else {
+      return res.status(404).json({ message: "Survey not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 app.post('/answer', async (req, res) => {
   console.log("Saving answer")
