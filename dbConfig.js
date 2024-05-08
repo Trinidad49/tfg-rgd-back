@@ -22,18 +22,18 @@ const Loginschema = new mongoose.Schema({
 });
 
 const answerSchema = new mongoose.Schema({
-    text: String,
-  });
+  text: String,
+});
 
 const questionSchema = new mongoose.Schema({
-    text: String,
-    type: {
-      type: String,
-      enum: ['text', 'multipleChoice', 'checkbox']
-    },
-    answers: [answerSchema],
-    mandatory: Boolean
-  });
+  text: String,
+  type: {
+    type: String,
+    enum: ["text", "multipleChoice", "checkbox", "linear"],
+  },
+  answers: [answerSchema],
+  mandatory: Boolean,
+});
 
 const Surveyschema = new mongoose.Schema({
   userID: {
@@ -42,35 +42,42 @@ const Surveyschema = new mongoose.Schema({
   },
   title: {
     type: String,
-    required: true
+    required: true,
   },
   questions: {
     type: [questionSchema],
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 const Answerschema = new mongoose.Schema({
   surveyID: {
     type: String,
-    required: true
+    required: true,
   },
-  answers: [{
-    text: {
-      type: String,
-      required: true
+  answers: [
+    {
+      text: {
+        type: String,
+        required: true,
+      },
+      answer: {
+        type: mongoose.Schema.Types.Mixed,
+      },
     },
-    answer: {
-      type: mongoose.Schema.Types.Mixed 
-    }
-  }]
+  ],
 });
 
 const usersCollection = new mongoose.model("users", Loginschema);
 const surveysCollection = new mongoose.model("surveys", Surveyschema);
-const answersCollection = new mongoose.model("answers", Answerschema)
+const answersCollection = new mongoose.model("answers", Answerschema);
 
-module.exports = { usersCollection, surveysCollection, answersCollection, mongoose};
+module.exports = {
+  usersCollection,
+  surveysCollection,
+  answersCollection,
+  mongoose,
+};
