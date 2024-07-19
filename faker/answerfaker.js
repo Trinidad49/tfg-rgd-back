@@ -109,6 +109,6 @@ function generateAnswer(question) {
   }
 }
 
-const surveyID = '6640a6e34538bcb4e99a28b9';
-const numberOfResponses = 150; // Number of responses to generate
+const surveyID = '666a09368ed4badf721b36df';
+const numberOfResponses = 300; // Number of responses to generate
 generateAnswersForSurvey(surveyID, numberOfResponses);
