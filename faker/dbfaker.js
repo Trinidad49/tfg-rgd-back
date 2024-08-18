@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const { faker } = require('@faker-js/faker');
+require('dotenv').config();
+const dburl = process.env.DBURL
 
 const answerSchema = new mongoose.Schema({
   text: String,
@@ -37,7 +39,7 @@ const Survey = mongoose.model('surveys', surveySchema);
 
 async function generateTestData(userID, numberOfSurveys) {
   try {
-    await mongoose.connect('mongodb://0.0.0.0:27017/TFG', {
+    await mongoose.connect(`${dburl}/TFG`, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

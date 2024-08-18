@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const connect = mongoose.connect("mongodb://0.0.0.0:27017/TFG");
+require('dotenv').config();
+const dburl = process.env.DBURL
+const connect = mongoose.connect(dburl);
 
 // Check database connected or not
 connect
